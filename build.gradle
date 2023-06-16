@@ -34,6 +34,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testImplementation 'commons-dbutils:commons-dbutils:1.7'
 }
 
 test {
