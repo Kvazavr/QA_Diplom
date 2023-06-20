@@ -5,10 +5,6 @@
 * процент успешных и не успешных тест-кейсов;
 * общие рекомендации.
 
-h2 Путешествие дня
-h3 Марракэш
-button class="button__text" КУпить
-h3 Оплата по карте
 span class="input__top" Номер карты class="input__box" (?class="input__control") value
 class="input__sub" Неверный формат
 span class="input__top" Месяц class="input__box" value
