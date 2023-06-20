@@ -26,4 +26,36 @@ public class DataHelper {
         String name = "ELENA NEKRASOVA";
         return name;
     }
+
+    public static CardInfo getValidCardInfo() {
+
+        return new CardInfo(cardNumberApproved(), "08", "24", cardOwnerName(), "321");
+    }
+
+    public static CardInfo getInvalidNumberOfCard() {
+
+        CardInfo result = getValidCardInfo();
+        result.setNumber(cardNumberDeclined());
+        return result;
+    }
+
+    public static String getInvalidMonth() {
+
+        return "13";
+    }
+
+    public static String getInvalidYear() {
+        return "22";
+    }
+
+    public static String getInvalidName() {
+
+        return "123456++";
+    }
+
+    public static String getInvalidCVV() {
+
+        return "+++";
+    }
+
 }

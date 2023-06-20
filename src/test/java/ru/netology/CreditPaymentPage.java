@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class CreditPaymentPage {
-    SelenideElement titleCardPayment = $x("//h2/[contains(text(), 'Покупка в кредит')]");
+    SelenideElement titleCardPayment = $x("//h2/[contains(text(), 'Кредит по данным карты')]");
     static SelenideElement cardNumber = $x("//*[contains(text(), 'Номер карты')]/../span/input");
     static SelenideElement month = $x("//*[contains(text(), 'Месяц')]/../*/input");
     static SelenideElement year = $x("//*[contains(text(), 'Год')]");

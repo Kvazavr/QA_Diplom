@@ -9,15 +9,21 @@ public class TourDescriptionPage {
     SelenideElement title = $x("//*[contains(text(), 'Путешествие дня')]");
     SelenideElement tourName = $x("//*[contains(text(), 'Марракэш')]");
     SelenideElement buttonBuy = $x("//*[contains(text(), 'Купить')]");
-    SelenideElement buttonBuyInCredit = $x("//*[contains(text(), 'Купить в кредит')]");
-
-    public CardPaymentPage chooseCardPayment() {
+    SelenideElement buttonBuyInCredit = $x("//*[(text() = 'Купить в кредит')]");
+    public TourDescriptionPage(){
         title.shouldBe(Condition.visible);
         tourName.shouldBe(Condition.visible);
         buttonBuy.shouldBe(Condition.visible);
         buttonBuyInCredit.shouldBe(Condition.visible);
+    }
+
+    public CardPaymentPage chooseCardPayment() {
         buttonBuy.click();
         return new CardPaymentPage();
+    }
+    public CreditPaymentPage chooseCreditPayment() {
+        buttonBuyInCredit.click();
+        return new CreditPaymentPage();
     }
 
 }

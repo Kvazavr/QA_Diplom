@@ -3,10 +3,7 @@ package ru.netology;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.Duration;
 
@@ -30,7 +27,8 @@ public class MaraceshTest {
 
     @Test
     void shouldBeSuccessfulBuyTourDebit() {
-//        TourDescriptionPage.
+
+        DataHelper.getValidCardInfo().withMonth(DataHelper.getInvalidMonth());
         CardPaymentPage.cardNumber.click();
         CardPaymentPage.cardNumber.setValue("4444 4444 4444 4441");
         CardPaymentPage.month.click();
@@ -43,6 +41,12 @@ public class MaraceshTest {
         CardPaymentPage.cvc.setValue("441");
         CardPaymentPage.continueButton.click();
         CardPaymentPage.successfulNotification.shouldBe(Condition.visible, Duration.ofSeconds(7));
+    }
+    @Test
+    void testDB() {
+        PaymentEntity paymentEntity = DBUtils.paymentEntity();
+        Assertions.assertEquals("APPROVED", paymentEntity.getStatus());
+        Assertions.assertEquals(4500000, paymentEntity.getAmount());
     }
 
 
