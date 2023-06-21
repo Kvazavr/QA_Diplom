@@ -15,4 +15,7 @@ public class CreditPaymentPage {
     static SelenideElement cvc = $x("//*[contains(text(), 'CVC/CVV)]");
     static SelenideElement continueButton = $x("//*[contains(text(), 'Продолжить')]");
     static SelenideElement successfulNotification = $(".notification__content").shouldHave(Condition.text("Операция одобрена банком"));
+    public CreditPaymentPage(){
+        titleCardPayment.shouldBe(Condition.visible);
+    }
 }

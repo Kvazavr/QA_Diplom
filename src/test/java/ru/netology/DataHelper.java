@@ -18,7 +18,7 @@ public class DataHelper {
     }
 
     public static String invalidCardNumber() {
-        String number = "4444 4444 4444 4445";
+        String number = "4444 4444 4444 444";
         return number;
     }
 
@@ -26,36 +26,67 @@ public class DataHelper {
         String name = "ELENA NEKRASOVA";
         return name;
     }
+    public static String invalidMonth() {
+
+        return "13";
+    }
+
+    public static String invalidYear() {
+        return "22";
+    }
+
+    public static String invalidName() {
+
+        return "123456++";
+    }
+
+    public static String invalidCVV() {
+
+        return "+++";
+    }
 
     public static CardInfo getValidCardInfo() {
 
         return new CardInfo(cardNumberApproved(), "08", "24", cardOwnerName(), "321");
     }
 
-    public static CardInfo getInvalidNumberOfCard() {
+    public static CardInfo getDeclineNumberOfCard() {
 
         CardInfo result = getValidCardInfo();
         result.setNumber(cardNumberDeclined());
         return result;
     }
+    public static CardInfo getInvalidNumberOfCard() {
 
-    public static String getInvalidMonth() {
+        CardInfo result = getValidCardInfo();
+        result.setNumber(invalidCardNumber());
+        return result;
+    }
+    public static CardInfo getInvalidMonth() {
 
-        return "13";
+        CardInfo result = getValidCardInfo();
+        result.setNumber(invalidMonth());
+        return result;
+    }
+    public static CardInfo getInvalidYear() {
+
+        CardInfo result = getValidCardInfo();
+        result.setNumber(invalidYear());
+        return result;
+    }
+    public static CardInfo getInvalidName() {
+
+        CardInfo result = getValidCardInfo();
+        result.setNumber(invalidName());
+        return result;
+    }
+    public static CardInfo getInvalidCVV() {
+
+        CardInfo result = getValidCardInfo();
+        result.setNumber(invalidCVV());
+        return result;
     }
 
-    public static String getInvalidYear() {
-        return "22";
-    }
 
-    public static String getInvalidName() {
-
-        return "123456++";
-    }
-
-    public static String getInvalidCVV() {
-
-        return "+++";
-    }
 
 }

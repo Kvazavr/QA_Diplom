@@ -9,7 +9,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class MaraceshTest {
+public class MaraceshTestByDebitCard {
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -22,13 +22,14 @@ public class MaraceshTest {
 
     @BeforeEach
     void setup() {
+        DBUtils.preperedDB();
         open("http://localhost:8080");
     }
 
     @Test
     void shouldBeSuccessfulBuyTourDebit() {
 
-        DataHelper.getValidCardInfo().withMonth(DataHelper.getInvalidMonth());
+        TourDescriptionPage.chooseCardPayment();
         CardPaymentPage.cardNumber.click();
         CardPaymentPage.cardNumber.setValue("4444 4444 4444 4441");
         CardPaymentPage.month.click();
@@ -47,6 +48,112 @@ public class MaraceshTest {
         PaymentEntity paymentEntity = DBUtils.paymentEntity();
         Assertions.assertEquals("APPROVED", paymentEntity.getStatus());
         Assertions.assertEquals(4500000, paymentEntity.getAmount());
+    }
+    @Test
+    void nameInCyrillic() {
+
+    }
+    @Test
+    void nameWithYo() {
+
+    }
+    @Test
+    void nameWithHyphen() {
+
+    }
+    @Test
+    void emptyFieldNumber(){
+
+    }
+    @Test
+    void emptyFieldMonth(){
+
+    }
+    @Test
+    void emptyFieldYear(){
+
+    }
+    @Test
+    void emptyFieldName(){
+
+    }
+    @Test
+    void emptyFieldCVV(){
+
+    }
+    @Test
+    void declineNumber(){
+
+    }
+    @Test
+    void notEnoughCharInNumber(){
+
+    }
+    @Test
+    void lettersInNumber(){
+
+    }
+    @Test
+    void specSymbolNumber(){
+
+    }
+    @Test
+    void invalidMonth(){
+
+//        DataHelper.getValidCardInfo().withMonth(DataHelper.getInvalidMonth());
+    }
+    @Test
+    void lettersInMonth() {
+
+    }
+
+    @Test
+    void specSymbolInMonth(){
+
+    }
+    @Test
+    void inputOneNumberInMonth() {
+
+    }
+    @Test
+    void oneLetterInName(){
+
+    }
+    @Test
+    void specSymbolInName(){
+
+    }
+    @Test
+    void numbersInName(){
+
+    }
+    @Test
+    void lessThanCurrentYear(){
+
+    }
+    @Test
+    void oneNumberInYear(){
+
+    }
+    @Test
+    void specSymbolInYear(){
+
+    }
+    @Test
+    void lettersInYear(){
+
+    }
+    @Test
+    void lettersInCVV(){
+
+    }
+    @Test
+    void oneNumberInCVV(){
+
+    }
+    @Test
+    void specSymbolInCVV(){
+
     }
 
 

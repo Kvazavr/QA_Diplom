@@ -15,7 +15,11 @@ public class CardPaymentPage {
     static SelenideElement cvc = $x("//*[contains(text(), 'CVC/CVV)]");
     static SelenideElement continueButton = $x("//*[contains(text(), 'Продолжить')]");
     static SelenideElement successfulNotification = $(".notification__content").shouldHave(Condition.text("Операция одобрена банком"));
+    static SelenideElement unsuccessfulNotification = $(".notification__content").shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."));
 
+    public CardPaymentPage(){
+        titleCardPayment.shouldBe(Condition.visible);
+    }
 }
 
 

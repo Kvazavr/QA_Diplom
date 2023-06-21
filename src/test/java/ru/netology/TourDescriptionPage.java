@@ -8,8 +8,8 @@ import static com.codeborne.selenide.Selenide.$x;
 public class TourDescriptionPage {
     SelenideElement title = $x("//*[contains(text(), 'Путешествие дня')]");
     SelenideElement tourName = $x("//*[contains(text(), 'Марракэш')]");
-    SelenideElement buttonBuy = $x("//*[contains(text(), 'Купить')]");
-    SelenideElement buttonBuyInCredit = $x("//*[(text() = 'Купить в кредит')]");
+    static SelenideElement buttonBuy = $x("//*[contains(text(), 'Купить')]");
+    static SelenideElement buttonBuyInCredit = $x("//*[(text() = 'Купить в кредит')]");
     public TourDescriptionPage(){
         title.shouldBe(Condition.visible);
         tourName.shouldBe(Condition.visible);
@@ -17,11 +17,11 @@ public class TourDescriptionPage {
         buttonBuyInCredit.shouldBe(Condition.visible);
     }
 
-    public CardPaymentPage chooseCardPayment() {
+    public static CardPaymentPage chooseCardPayment() {
         buttonBuy.click();
         return new CardPaymentPage();
     }
-    public CreditPaymentPage chooseCreditPayment() {
+    public static CreditPaymentPage chooseCreditPayment() {
         buttonBuyInCredit.click();
         return new CreditPaymentPage();
     }
