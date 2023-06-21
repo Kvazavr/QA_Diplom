@@ -50,43 +50,4 @@ public class DataHelper {
         return new CardInfo(cardNumberApproved(), "08", "24", cardOwnerName(), "321");
     }
 
-    public static CardInfo getDeclineNumberOfCard() {
-
-        CardInfo result = getValidCardInfo();
-        result.setNumber(cardNumberDeclined());
-        return result;
-    }
-    public static CardInfo getInvalidNumberOfCard() {
-
-        CardInfo result = getValidCardInfo();
-        result.setNumber(invalidCardNumber());
-        return result;
-    }
-    public static CardInfo getInvalidMonth() {
-
-        CardInfo result = getValidCardInfo();
-        result.setNumber(invalidMonth());
-        return result;
-    }
-    public static CardInfo getInvalidYear() {
-
-        CardInfo result = getValidCardInfo();
-        result.setNumber(invalidYear());
-        return result;
-    }
-    public static CardInfo getInvalidName() {
-
-        CardInfo result = getValidCardInfo();
-        result.setNumber(invalidName());
-        return result;
-    }
-    public static CardInfo getInvalidCVV() {
-
-        CardInfo result = getValidCardInfo();
-        result.setNumber(invalidCVV());
-        return result;
-    }
-
-
-
 }
