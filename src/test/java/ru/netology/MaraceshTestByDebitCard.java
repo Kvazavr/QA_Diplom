@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class MaraceshTestByDebitCard {
     TourDescriptionPage tour;
+
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -32,116 +33,180 @@ public class MaraceshTestByDebitCard {
         card.paySuccess(DataHelper.getValidCardInfo());
         card.approved();
     }
+
     @Test
     void testDB() {
         PaymentEntity paymentEntity = DBUtils.paymentEntity();
         Assertions.assertEquals("APPROVED", paymentEntity.getStatus());
         Assertions.assertEquals(4500000, paymentEntity.getAmount());
     }
+
     @Test
-    void nameInCyrillic() {
+    void shouldBeDeclinedBuyTourDebit() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getDeclinedCardInfo());
+        card.declined();
+    }
+
+    @Test
+    void emptyFieldNumber() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getNumberEmpty());
+        card.requiredFieldNotification();
+    }
+
+    @Test
+    void emptyFieldMonth() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getMonthEmpty());
+        card.requiredFieldNotification();
 
     }
+
     @Test
-    void nameWithYo() {
+    void emptyFieldYear() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getYearEmpty());
+        card.requiredFieldNotification();
 
     }
+
     @Test
-    void nameWithHyphen() {
+    void emptyFieldName() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getOwnerEmpty());
+        card.requiredFieldNotification();
 
     }
+
     @Test
-    void emptyFieldNumber(){
+    void emptyFieldCVV() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getCVVEmpty());
+        card.requiredFieldNotification();
+    }
+
+    @Test
+    void invalidNumber() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getInvalidCardInfo());
+        card.declined();
+    }
+
+    @Test
+    void notEnoughCharInNumber() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getNotEnoughNumbers());
+        card.wrongFormatNotification();
+    }
+
+    @Test
+    void lettersInNumber() {
 
     }
+
     @Test
-    void emptyFieldMonth(){
+    void specSymbolNumber() {
 
     }
-    @Test
-    void emptyFieldYear(){
 
-    }
     @Test
-    void emptyFieldName(){
-
+    void invalidMonth() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getInvalidMonth());
+        card.wrongFormatNotification();
     }
-    @Test
-    void emptyFieldCVV(){
 
-    }
-    @Test
-    void declineNumber(){
-
-    }
-    @Test
-    void notEnoughCharInNumber(){
-
-    }
-    @Test
-    void lettersInNumber(){
-
-    }
-    @Test
-    void specSymbolNumber(){
-
-    }
-    @Test
-    void invalidMonth(){
-
-        DataHelper.getValidCardInfo().withMonth(DataHelper.invalidMonth());
-    }
     @Test
     void lettersInMonth() {
 
     }
 
     @Test
-    void specSymbolInMonth(){
+    void specSymbolInMonth() {
 
     }
+
     @Test
     void inputOneNumberInMonth() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getOneNumberInMonth());
+        card.wrongFormatNotification();
 
     }
+
     @Test
-    void oneLetterInName(){
+    void nameInCyrillic() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getCyrillicNameCardInfo());
+        card.wrongFormatNotification();
+    }
+
+    @Test
+    void nameWithHyphen() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getNameWithHyphen());
+        card.approved();
+    }
+
+    @Test
+    void oneLetterInName() {
 
     }
+
     @Test
-    void specSymbolInName(){
+    void specSymbolInName() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getNameWithSpecSymbol());
+        card.wrongFormatNotification();
+    }
+
+    @Test
+    void numbersInName() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getNameWithNumbers());
+        card.wrongFormatNotification();
 
     }
+
     @Test
-    void numbersInName(){
+    void lessThanCurrentYear() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getInvalidYear());
+        card.expiredNotification();
+    }
+
+    @Test
+    void oneNumberInYear() {
+
 
     }
+
     @Test
-    void lessThanCurrentYear(){
+    void specSymbolInYear() {
 
     }
+
     @Test
-    void oneNumberInYear(){
+    void lettersInYear() {
 
     }
+
     @Test
-    void specSymbolInYear(){
+    void lettersInCVV() {
+        CardPaymentPage card = tour.chooseCardPayment();
+        card.paySuccess(DataHelper.getInvalidCVV());
+        card.wrongFormatNotification();
 
     }
+
     @Test
-    void lettersInYear(){
+    void oneNumberInCVV() {
 
     }
-    @Test
-    void lettersInCVV(){
 
-    }
     @Test
-    void oneNumberInCVV(){
-
-    }
-    @Test
-    void specSymbolInCVV(){
+    void specSymbolInCVV() {
 
     }
 
