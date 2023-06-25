@@ -3,21 +3,65 @@ package ru.netology;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class CreditPaymentPage {
-    SelenideElement titleCardPayment = $x("//h2/[contains(text(), 'Кредит по данным карты')]");
+    SelenideElement titleCardPayment = $x("//h3[text()[contains(., 'Кредит по данным карты')]]");
     SelenideElement cardNumber = $x("//*[contains(text(), 'Номер карты')]/../span/input");
     SelenideElement month = $x("//*[contains(text(), 'Месяц')]/../*/input");
-    SelenideElement year = $x("//*[contains(text(), 'Год')]");
-    SelenideElement ownerName = $x("//*[contains(text(), 'Владелец')]");
-    SelenideElement cvc = $x("//*[contains(text(), 'CVC/CVV)]");
-    SelenideElement continueButton = $x("//*[contains(text(), 'Продолжить')]");
-    SelenideElement successfulNotification = $(".notification__content").shouldHave(Condition.text("Операция одобрена банком"));
-    SelenideElement unsuccessfulNotification = $(".notification__content").shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."));
+    SelenideElement year = $x("//*[contains(text(), 'Год')]/../*/input");
+    SelenideElement ownerName = $x("//*[contains(text(), 'Владелец')]/../*/input");
+    SelenideElement cvc = $x("//*[contains(text(), 'CVC/CVV')]/../*/input");
+    SelenideElement continueButton = $x("//*[text()[contains(., 'Продолжить')]]");
 
     public CreditPaymentPage() {
         titleCardPayment.shouldBe(Condition.visible);
+    }
+
+    public void pay(CardInfo data) {
+        setElementValue(cardNumber, data.getNumber());
+        setElementValue(month, data.getMonth());
+        setElementValue(year, data.getYear());
+        setElementValue(ownerName, data.getName());
+        setElementValue(cvc, data.getCvv());
+        continueButton.click();
+    }
+
+    private void setElementValue(SelenideElement element, String value) {
+        element.click();
+        element.setValue(value);
+    }
+
+    public void approved() {
+        SelenideElement successfulNotification = $(".notification_status_ok .notification__content").shouldHave(Condition.text("Операция одобрена Банком."), Duration.ofMillis(20000));
+        successfulNotification.shouldBe(Condition.visible);
+    }
+
+    public void declined() {
+        SelenideElement declineNotification = $(".notification_status_error .notification__content").shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."), Duration.ofMillis(15000));
+        declineNotification.shouldBe(Condition.visible);
+    }
+
+    public void wrongFormatNotification() {
+        SelenideElement wrongFormat = $(".input__sub").shouldHave(Condition.text("Неверный формат"));
+        wrongFormat.shouldBe(Condition.visible);
+    }
+
+    public void requiredFieldNotification() {
+        SelenideElement empty = $(".input__sub").shouldHave(Condition.text("Поле обязательно для заполнения"));
+        empty.shouldBe(Condition.visible);
+    }
+
+    public void expiredNotification() {
+        SelenideElement expired = $(".input__sub").shouldHave(Condition.text("Истёк срок действия карты"));
+        expired.shouldBe(Condition.visible);
+    }
+
+    public void wrongValidityNotification() {
+        SelenideElement expired = $(".input__sub").shouldHave(Condition.text("Неверно указан срок действия карты"));
+        expired.shouldBe(Condition.visible);
     }
 }

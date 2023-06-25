@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class CardPaymentPage {
-    SelenideElement titleCardPayment = $x("//h3/[contains(text(), 'Оплата по карте')]");
     SelenideElement cardNumber = $x("//*[contains(text(), 'Номер карты')]/../*/input");
     SelenideElement month = $x("//*[contains(text(), 'Месяц')]/../*/input");
     SelenideElement year = $x("//*[contains(text(), 'Год')]/../*/input");
@@ -17,7 +16,7 @@ public class CardPaymentPage {
     SelenideElement cvc = $x("//*[contains(text(), 'CVC/CVV')]/../*/input");
     SelenideElement button = $x("//*[text()[contains(., 'Продолжить')]]");
 
-    public void paySuccess(CardInfo data) {
+    public void pay(CardInfo data) {
         setElementValue(cardNumber, data.getNumber());
         setElementValue(month, data.getMonth());
         setElementValue(year, data.getYear());
@@ -32,13 +31,13 @@ public class CardPaymentPage {
     }
 
     public void approved() {
-        SelenideElement successfulNotification = $(".notification__content").shouldHave(Condition.text("Операция одобрена Банком"));
-        successfulNotification.shouldBe(Condition.visible, Duration.ofMillis(5000));
+        SelenideElement successfulNotification = $(".notification_status_ok .notification__content").shouldHave(Condition.text("Операция одобрена Банком."), Duration.ofMillis(20000));
+        successfulNotification.shouldBe(Condition.visible);
     }
 
     public void declined() {
-        SelenideElement declineNotification = $(".notification__content").shouldHave(Condition.text("Банк отказал в проведении операции."));
-        declineNotification.shouldBe(Condition.visible, Duration.ofMillis(5000));
+        SelenideElement declineNotification = $(".notification_status_error .notification__content").shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."), Duration.ofMillis(15000));
+        declineNotification.shouldBe(Condition.visible);
     }
 
     public void wrongFormatNotification() {
@@ -55,9 +54,9 @@ public class CardPaymentPage {
         SelenideElement expired = $(".input__sub").shouldHave(Condition.text("Истёк срок действия карты"));
         expired.shouldBe(Condition.visible);
     }
-
-    public void wrongDateCardNotification() {
-        SelenideElement wrongDate = $(".input__sub").shouldHave(Condition.text("Неверно указан срок действия карты"));
+    public void wrongValidityNotification() {
+        SelenideElement expired = $(".input__sub").shouldHave(Condition.text("Неверно указан срок действия карты"));
+        expired.shouldBe(Condition.visible);
     }
 
 
