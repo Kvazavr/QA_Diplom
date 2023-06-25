@@ -37,12 +37,10 @@ public class DataHelper {
     }
 
 
-
     public static CardInfo getValidCardInfo() {
 
         return new CardInfo(cardNumberApproved(), "08", "24", holder(), "321");
     }
-
 
 
 }

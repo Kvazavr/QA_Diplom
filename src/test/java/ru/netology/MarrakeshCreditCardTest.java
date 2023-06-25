@@ -37,6 +37,7 @@ public class MarrakeshCreditCardTest {
         CreditRequestEntity entity = DBUtils.creditRequestEntity();
         Assertions.assertEquals("APPROVED", entity.getStatus());
     }
+
     @Test
     void shouldBeDeclinedBuyTourDebit() {
         card.pay(DataHelper.getValidCardInfo().withNumber(DataHelper.cardNumberDeclined()));
@@ -44,6 +45,7 @@ public class MarrakeshCreditCardTest {
         CreditRequestEntity entity = DBUtils.creditRequestEntity();
         Assertions.assertEquals("DECLINED", entity.getStatus());
     }
+
     @Test
     void emptyFieldNumber() {
 

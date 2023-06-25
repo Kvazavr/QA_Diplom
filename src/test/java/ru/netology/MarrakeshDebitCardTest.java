@@ -46,6 +46,7 @@ public class MarrakeshDebitCardTest {
         PaymentEntity entity = DBUtils.paymentEntity();
         Assertions.assertEquals("DECLINED", entity.getStatus());
     }
+
     @Test
     void emptyFieldNumber() {
 

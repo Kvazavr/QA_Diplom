@@ -54,6 +54,7 @@ public class CardPaymentPage {
         SelenideElement expired = $(".input__sub").shouldHave(Condition.text("Истёк срок действия карты"));
         expired.shouldBe(Condition.visible);
     }
+
     public void wrongValidityNotification() {
         SelenideElement expired = $(".input__sub").shouldHave(Condition.text("Неверно указан срок действия карты"));
         expired.shouldBe(Condition.visible);

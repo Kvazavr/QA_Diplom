@@ -23,6 +23,7 @@ public class DBUtils {
         }
 
     }
+
     @SneakyThrows
     public static CreditRequestEntity creditRequestEntity() {
         var sql = "SELECT * FROM credit_request_entity order by created desc limit 1;";
@@ -43,6 +44,7 @@ public class DBUtils {
         }
         return connection(url);
     }
+
     @SneakyThrows
     private static Connection connection(String url) {
 

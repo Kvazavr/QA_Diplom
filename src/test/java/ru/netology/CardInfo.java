@@ -16,18 +16,22 @@ public class CardInfo {
         this.month = month;
         return this;
     }
+
     public CardInfo withYear(String year) {
         this.year = year;
         return this;
     }
-    public CardInfo withNumber (String number) {
+
+    public CardInfo withNumber(String number) {
         this.number = number;
         return this;
     }
+
     public CardInfo withName(String name) {
         this.name = name;
         return this;
     }
+
     public CardInfo withCVV(String cvv) {
         this.cvv = cvv;
         return this;
