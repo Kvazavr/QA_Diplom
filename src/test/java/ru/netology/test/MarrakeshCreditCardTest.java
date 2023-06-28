@@ -1,8 +1,14 @@
-package ru.netology;
+package ru.netology.test;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
+import ru.netology.data.CardInfo;
+import ru.netology.data.CreditRequestEntity;
+import ru.netology.data.DBUtils;
+import ru.netology.data.DataHelper;
+import ru.netology.page.CreditPaymentPage;
+import ru.netology.page.TourDescriptionPage;
 
 import static com.codeborne.selenide.Selenide.open;
 
@@ -29,7 +35,7 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void shouldBeSuccessfulBuyTourDebit() {
+    void shouldBeSuccessfulPurchaseTourCredit() {
 
         CardInfo cardInfo = DataHelper.getValidCardInfo();
         card.pay(cardInfo);
@@ -39,7 +45,7 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void shouldBeDeclinedBuyTourDebit() {
+    void shouldBeDeclinedPurchaseWhenUseDeclinedCard() {
         card.pay(DataHelper.getValidCardInfo().withNumber(DataHelper.cardNumberDeclined()));
         card.declined();
         CreditRequestEntity entity = DBUtils.creditRequestEntity();
@@ -47,7 +53,7 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void emptyFieldNumber() {
+    void cannotMakePurchaseWithEmptyFieldNumber() {
 
         card.pay(DataHelper.getValidCardInfo().withNumber(""));
         card.wrongFormatNotification();
@@ -55,14 +61,14 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void emptyFieldMonth() {
+    void cannotMakePurchaseWithEmptyFieldMonth() {
         card.pay(DataHelper.getValidCardInfo().withMonth(""));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void emptyFieldYear() {
+    void cannotMakePurchaseWithEmptyFieldYear() {
         card.pay(DataHelper.getValidCardInfo().withYear(""));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
@@ -70,21 +76,21 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void emptyFieldName() {
+    void cannotMakePurchaseWithEmptyFieldName() {
         card.pay(DataHelper.getValidCardInfo().withName(""));
         card.requiredFieldNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void emptyFieldCVV() {
+    void cannotMakePurchaseWithEmptyFieldCVV() {
         card.pay(DataHelper.getValidCardInfo().withCVV(""));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void invalidNumber() {
+    void cannotMakePurchaseWithInvalidNumber() {
         card.pay(DataHelper.getValidCardInfo().withNumber(DataHelper.invalidCardNumber()));
         card.declined();
         CreditRequestEntity entity = DBUtils.creditRequestEntity();
@@ -93,14 +99,14 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void notEnoughCharInNumber() {
+    void cannotMakePurchaseWithNotEnoughCharInNumber() {
         card.pay(DataHelper.getValidCardInfo().withNumber(DataHelper.notEnoughInCardNumber()));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void lettersInNumber() {
+    void cannotMakePurchaseWithLettersInNumber() {
         card.pay(DataHelper.getValidCardInfo().withNumber("fdhsjk"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
@@ -108,28 +114,28 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void specSymbolNumber() {
+    void cannotMakePurchaseWithSpecSymbolNumber() {
         card.pay(DataHelper.getValidCardInfo().withNumber("+++---"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void invalidMonth() {
+    void cannotMakePurchaseWithInvalidMonth() {
         card.pay(DataHelper.getValidCardInfo().withMonth("13"));
         card.wrongValidityNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void lettersInMonth() {
+    void cannotMakePurchaseWithLettersInMonth() {
         card.pay(DataHelper.getValidCardInfo().withMonth("df"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void specSymbolInMonth() {
+    void cannotMakePurchaseWithSpecSymbolInMonth() {
         card.pay(DataHelper.getValidCardInfo().withMonth("+@"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
@@ -137,21 +143,21 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void inputOneNumberInMonth() {
+    void cannotMakePurchaseWithInputOneNumberInMonth() {
         card.pay(DataHelper.getValidCardInfo().withMonth("9"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void nameInCyrillic() {
+    void cannotMakePurchaseWithNameInCyrillic() {
         card.pay(DataHelper.getValidCardInfo().withName("Елена"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void nameWithHyphen() {
+    void shouldBeSuccessfulPurchaseWithNameWithHyphen() {
         card.pay(DataHelper.getValidCardInfo().withName("Elena-Anna"));
         card.approved();
         CreditRequestEntity entity = DBUtils.creditRequestEntity();
@@ -159,42 +165,48 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void oneLetterInName() {
+    void cannotMakePurchaseWithOneLetterInName() {
         card.pay(DataHelper.getValidCardInfo().withName("У"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void specSymbolInName() {
+    void cannotMakePurchaseWithSpecSymbolInName() {
         card.pay(DataHelper.getValidCardInfo().withName("+++---"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void numbersInName() {
+    void cannotMakePurchaseWithNumbersInName() {
         card.pay(DataHelper.getValidCardInfo().withName("123456"));
+        card.wrongFormatNotification();
+        DBUtils.assertDbEmpty();
+    }
+    @Test
+    void cannotMakePurchaseWithRowOfLettersInName() {
+        card.pay(DataHelper.getValidCardInfo().withName("vdnklcdd"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void lessThanCurrentYear() {
+    void cannotMakePurchaseWhenLessThanCurrentYear() {
         card.pay(DataHelper.getValidCardInfo().withYear("22"));
         card.expiredNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void oneNumberInYear() {
+    void cannotMakePurchaseWithOneNumberInYear() {
         card.pay(DataHelper.getValidCardInfo().withYear("2"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
     }
 
     @Test
-    void specSymbolInYear() {
+    void cannotMakePurchaseWithSpecSymbolInYear() {
         card.pay(DataHelper.getValidCardInfo().withYear("++"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
@@ -202,7 +214,7 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void lettersInYear() {
+    void cannotMakePurchaseWithLettersInYear() {
         card.pay(DataHelper.getValidCardInfo().withYear("sd"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
@@ -210,8 +222,23 @@ public class MarrakeshCreditCardTest {
     }
 
     @Test
-    void lettersInCVV() {
+    void cannotMakePurchaseWithLettersInCVV() {
         card.pay(DataHelper.getValidCardInfo().withCVV("sdd"));
+        card.wrongFormatNotification();
+        DBUtils.assertDbEmpty();
+
+    }
+    @Test
+    void cannotMakePurchaseWithOneNumberInCVV() {
+        card.pay(DataHelper.getValidCardInfo().withCVV("1"));
+        card.wrongFormatNotification();
+        DBUtils.assertDbEmpty();
+
+    }
+
+    @Test
+    void cannotMakePurchaseWithSpecSymbolInCVV() {
+        card.pay(DataHelper.getValidCardInfo().withCVV("+@-"));
         card.wrongFormatNotification();
         DBUtils.assertDbEmpty();
 
